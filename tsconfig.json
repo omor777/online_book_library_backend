@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES6", // ES6 is a good default
+    "module": "commonjs", // Express uses CommonJS
+    "strict": true, // Enable strict type checking
+    "esModuleInterop": true, // Ensure compatibility with CommonJS modules
+    "skipLibCheck": true, // Skip type checks for library files for faster builds
+    "sourceMap": true,
+    // "forceConsistentCasingInFileNames": true, // Enforce case-sensitive file names
+    "outDir": "./dist", // Output compiled files to the 'dist' folder
+    "rootDir": "./src" // Source files live in the 'src' folder
+  },
+  "include": ["src/**/*.ts"], // Include all TypeScript files in the 'src' folder
+  "exclude": ["node_modules"] // Exclude dependencies from the build
+}

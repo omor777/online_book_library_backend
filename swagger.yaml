@@ -1,0 +1,1419 @@
+openapi: 3.0.0
+info:
+  version: "1"
+  title: Online Book Library
+  description: This is the professional online book library api project. Where anyone can login to the system borrow book, return book, manage their book history and many more.
+  contact:
+    name: Omor Faruk
+    url: https://omorfarukdev.com
+    email: support@omor.com
+servers:
+  - description: dev
+    url: http://localhost:4000/api/v1
+tags:
+  - name: Auth
+    description: Authentication Enpoints (public)
+  - name: User
+    description: User Endpoints
+  - name: Book
+    description: Book Endpoints
+  - name: Borrow
+    description: Borrowing history Endpoints
+paths:
+  "/auth/signup":
+    post:
+      tags: [Auth]
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: john
+                email:
+                  type: string
+                  format: email
+                  example: john@gmail.com
+                password:
+                  type: string
+                  format: password
+                  example: pass1234
+                cover:
+                  type: string
+                  format: url
+                  example: https://s3.aws.32/ftp.jpeg
+              required: [username, email, password]
+      responses:
+        "201":
+          description: Signup Successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Signup Successful
+                  access_token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                  data:
+                    allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            example: "6076866d29a54b259838217d"
+                          username:
+                            type: string
+                            example: john
+                          email:
+                            type: string
+                            format: email
+                            example: john@gmail.com
+                          cover:
+                            type: string
+                            format: url
+                            example: https://s3.aws.32/ftp.jpeg
+                      - $ref: '#/components/schemas/TimeStam'
+
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/auth/signup"
+                      signin:
+                        type: string
+                        example: "/auth/signin"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+  "/auth/signin":
+    post:
+      tags: [Auth]
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: john@gmail.com
+                password:
+                  type: string
+                  format: password
+                  example: pass1234
+              required: [email, password]
+      responses:
+        "200":
+          description: Signin successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Signup Successful
+                  access_token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                  data:
+                    allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            example: "6076866d29a54b259838217d"
+                          username:
+                            type: string
+                            example: john
+                          email:
+                            type: string
+                            format: email
+                            example: john@gmail.com
+                          cover:
+                            type: string
+                            format: url
+                            example: https://s3.aws.32/ftp.jpeg
+                      - $ref: '#/components/schemas/TimeStam'
+
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/auth/signin"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+  "/books":
+    post:
+      operationId: Create Post
+      security:
+        - bearerAuth: []
+      tags: [Book]
+      description: Create a new book entity (admin only)
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Atomic Habits
+                author:
+                  type: string
+                  example: James Clear
+                description:
+                  type: string
+                  example: "Atomic Habits by James Clear is a comprehensive, practical guide on how to change your habits and get 1% better every day. Using a framework called the Four Laws of Behavior Change,"
+                genre:
+                  type: string
+                  example: self_help
+                keywords:
+                  type: array
+                  items:
+                    type: string
+                    example: "Make it Easy"
+      responses:
+        "201":
+          description: Book has been created successfully
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/BookCreateDTO"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "500":
+          $ref: "#/components/responses/500"
+    get:
+      tags: [Book]
+      description: Get all books
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+      responses:
+        "200":
+          description: Get all book data
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: string
+                              example: "507f1f77bcf86cd799439011"
+                        - $ref: "#/components/schemas/BookReqProp"
+                        - type: object
+                          properties:
+                            availability:
+                              type: string
+                              enum: [Available, Not_Available]
+                              example: Available
+                        - $ref: "#/components/schemas/TimeStam"
+                  pagenation:
+                    $ref: "#/components/schemas/Pagination"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/books?page=2&limit=10"
+                      next_page:
+                        type: string
+                        format: url
+                        example: "/books?page=3&limit=10"
+                      prev_page:
+                        type: string
+                        format: url
+                        example: "/books?page=1&limit=10"
+                      fast:
+                        type: string
+                        format: url
+                        example: "/books?page=1&limit=10"
+                      last:
+                        type: string
+                        format: url
+                        example: "/books?page=5&limit=10"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+  "/books/{id}":
+    get:
+      tags: [Book]
+      description: Get single book data
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "200":
+          description: get single book data
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/BookCreateDTO"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+    put:
+      security:
+        - bearerAuth: []
+      tags: [Book]
+      description: Update or create a book data (Admin only)
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              allOf:
+                - type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "507f1f77bcf86cd799439011"
+                - $ref: "#/components/schemas/BookReqProp"
+      responses:
+        "200":
+          description: book update successfully
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/BookUpdateDTO"
+        "201":
+          description: Create book data
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/BookCreateDTO"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "500":
+          $ref: "#/components/responses/500"
+    patch:
+      security:
+        - bearerAuth: []
+      tags: [Book]
+      description: update book data successful
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        description: all fields are optional
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/BookOptProp"
+      responses:
+        "200":
+          description: book update successful
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/BookUpdateDTO"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+    delete:
+      security:
+        - bearerAuth: []
+      tags: [Book]
+      description: Delete successful (Admin only)
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "204":
+          description: Delete successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 204
+                  message:
+                    type: string
+                    example: Delete successful
+        "404":
+          $ref: "#/components/responses/404"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "500":
+          $ref: "#/components/responses/500"
+  "/borrow_books":
+    get:
+      security:
+        - bearerAuth: []
+      tags: [Borrow]
+      description: Get all borrow history (Admin only)
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+        - in: query
+          name: expand
+          description: it could be user or book
+          schema:
+            type: string
+            enum: [user, book]
+            example: book
+      responses:
+        "200":
+          description: Get all borrow books history (Admin only)
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "507f1f77bcf86cd799439011"
+                        user:
+                          $ref: "#/components/schemas/UserDTO"
+                        book:
+                          $ref: "#/components/schemas/BookDTO"
+                        status:
+                          type: string
+                          enum: [Pending, Accepted, Rejected, Overdue, Returned]
+                          example: Pending
+                        borrow_date:
+                          type: string
+                          format: date-time
+                        return_date:
+                          type: string
+                          format: date-time
+                        createdAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          type: string
+                          format: date-time
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/borrow_books?page=2&limit=10"
+                      next_page:
+                        type: string
+                        format: url
+                        example: "/borrow_books?page=3&limit=10"
+                      prev_page:
+                        type: string
+                        format: url
+                        example: "/borrow_books?page=1&limit=10"
+                      first_page:
+                        type: string
+                        format: url
+                        example: "/borrow_books?page=1&limit=10"
+                      last_page:
+                        type: string
+                        format: url
+                        example: "/borrow_books?page=5&limit=10"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "500":
+          $ref: "#/components/responses/500"
+
+    post:
+      security:
+        - bearerAuth: []
+      tags: [Borrow]
+      description: Borrow request for a book
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: "507f1f77bcf86cd799439011"
+                bookId:
+                  type: string
+                  example: "507f1f77bcf86cd799439011"
+              required: [bookId]
+      responses:
+        "201":
+          description: Borrow request for a book
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Book borrow request successful
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/borrow_books"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+  "/borrow_books/{id}/accept":
+    patch:
+      security:
+        - bearerAuth: []
+      tags: [Borrow]
+      description: Accept borrow Request (Admin only)
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "200":
+          description: Accept borrow book request
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Borrow request accepted
+                  data:
+                    allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            example: "507f1f77bcf86cd799439011"
+                          userId:
+                            type: string
+                            example: "507f1f77bcf86cd799439011"
+                          bookId:
+                            type: string
+                            example: "507f1f77bcf86cd799439011"
+                          status:
+                            type: string
+                            example: Accepted
+                          borrow_date:
+                            type: string
+                            format: date-time
+                          return_date:
+                            type: string
+                            format: date-time
+                      - $ref: "#/components/schemas/TimeStam"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/borrow_books/123/accept"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+  "/borrow_books/{id}/reject":
+    patch:
+      security:
+        - bearerAuth: []
+      tags: [Borrow]
+      description: Accept borrow Request (Admin only)
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "200":
+          description: Accept borrow book request
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Borrow request accepted
+                  data:
+                    allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            example: "507f1f77bcf86cd799439011"
+                          userId:
+                            type: string
+                            example: "507f1f77bcf86cd799439011"
+                          bookId:
+                            type: string
+                            example: "507f1f77bcf86cd799439011"
+                          status:
+                            type: string
+                            example: Rejected
+                      - $ref: "#/components/schemas/TimeStam"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/borrow_books/123/accept"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+  "/users/{id}/borrow_books":
+    get:
+      security:
+        - bearerAuth: []
+      tags: [Borrow]
+      description: Get all borrow books user specific
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+        - $ref: "#/components/parameters/expandParam"
+      responses:
+        "200":
+          description: Get all borrow books user specific
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      allOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: string
+                              example: "507f1f77bcf86cd799439011"
+                            book:
+                              $ref: "#/components/schemas/BookDTO"
+                            status:
+                              type: string
+                              enum: [Accepted, Rejected, Overdue, Returned]
+                              example: Accepted
+                            borrow_date:
+                              type: string
+                              format: date-time
+                            return_date:
+                              type: string
+                              format: date-time
+                        - $ref: "#/components/schemas/TimeStam"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/users/123/borrow_books?page=2&limit=10"
+                      next_page:
+                        type: string
+                        format: url
+                        example: "/users/123/borrow_books?page=3&limit=10"
+                      prev_page:
+                        type: string
+                        format: url
+                        example: "/users/123/borrow_books?page=1&limit=10"
+                      first_page:
+                        type: string
+                        format: url
+                        example: "/users/123/borrow_books?page=1&limit=10"
+                      last_page:
+                        type: string
+                        format: url
+                        example: "/users/123/borrow_books?page=5&limit=10"
+  "/borrow_books/{id}/return":
+    patch:
+      security:
+        - bearerAuth: []
+      tags: [Borrow]
+      description: Return borrow book
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "200":
+          description: Return borrow book
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Book return successfully
+                  data:
+                    allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            example: "507f1f77bcf86cd799439011"
+                          userId:
+                            type: string
+                            example: "507f1f77bcf86cd799439011"
+                          bookId:
+                            type: string
+                            example: "507f1f77bcf86cd799439011"
+                          status:
+                            type: string
+                            example: Returned
+                      - $ref: "#/components/schemas/TimeStam"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/borrow_books/123/return"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+  "/users":
+    post:
+      security:
+        - bearerAuth: []
+      tags: [User]
+      description: Create user account (admin only)
+      requestBody:
+        description: all property are required
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: johndoe
+                email:
+                  type: string
+                  format: url
+                  example: john@gmail.com
+                password:
+                  type: string
+                  format: password
+                  example: pass1234
+              required: [username, email, password]
+      responses:
+        "200":
+          description: create user account successfully
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: account create successfully
+                  access_token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                  data:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                        example: johndoe
+                      email:
+                        type: string
+                        format: email
+                        example: john@gmail.com
+                      cover:
+                        type: string
+                        format: url
+                        example: "https://s3.aws.kf/fk.jpeg"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/users"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "500":
+          $ref: "#/components/responses/500"
+    get:
+      security:
+        - bearerAuth: []
+      tags: [User]
+      description: Get all users (admin only)
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+      responses:
+        "200":
+          description: Get all all users
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: string
+                              example: "507f1f77bcf86cd799439011"
+                            username:
+                              type: string
+                              example: johndoe
+                            email:
+                              type: string
+                              format: email
+                              example: john@gmail.com
+                            cover:
+                              type: string
+                              format: url
+                              example: "https://s3.aws.kf/fk.jpeg"
+                        - $ref: "#/components/schemas/TimeStam"
+                  pagenation:
+                    $ref: "#/components/schemas/Pagination"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/users?page=2&limit=10"
+                      next_page:
+                        type: string
+                        format: url
+                        example: "/users?page=3&limit=10"
+                      prev_page:
+                        type: string
+                        format: url
+                        example: "/users?page=1&limit=10"
+                      fast:
+                        type: string
+                        format: url
+                        example: "/users?page=1&limit=10"
+                      last:
+                        type: string
+                        format: url
+                        example: "/users?page=5&limit=10"
+                      profile:
+                        type: string
+                        format: url
+                        example: "/users/123/profile"
+
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "500":
+          $ref: "#/components/responses/500"
+  "/users/{id}":
+    get:
+      security:
+        - bearerAuth: []
+      tags: [User]
+      description: Get a single user data (admin only)
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "200":
+          description: Get a single user data
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            example: "507f1f77bcf86cd799439011"
+                          username:
+                            type: string
+                            example: johndoe
+                          email:
+                            type: string
+                            format: email
+                            example: john@gmail.com
+                          cover:
+                            type: string
+                            format: url
+                            example: "https://s3.aws.kf/fk.jpeg"
+                      - $ref: "#/components/schemas/TimeStam"
+
+                  links:
+                    type: string
+                    format: url
+                    example: "/users/123"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+    delete:
+      security:
+        - bearerAuth: []
+      tags: [User]
+      description: Delete a user (admin only)
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "204":
+          description: User delete successfully
+        "404":
+          $ref: "#/components/responses/404"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "500":
+          $ref: "#/components/responses/500"
+  "/users/{id}/a/borrow_books":
+    get:
+      security:
+        - bearerAuth: []
+      tags: [User]
+      description: Get all borrow books user specific (admin only)
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+        - $ref: "#/components/parameters/expandParam"
+      responses:
+        "200":
+          description: Get all borrow books user specific
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      allOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: string
+                              example: "507f1f77bcf86cd799439011"
+                            book:
+                              $ref: "#/components/schemas/BookDTO"
+                            status:
+                              type: string
+                              enum: [Accepted, Rejected, Overdue, Returned]
+                              example: Accepted
+                            borrow_date:
+                              type: string
+                              format: date-time
+                            return_date:
+                              type: string
+                              format: date-time
+                        - $ref: "#/components/schemas/TimeStam"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/users/123/borrow_books?page=2&limit=10"
+                      next_page:
+                        type: string
+                        format: url
+                        example: "/users/123/borrow_books?page=3&limit=10"
+                      prev_page:
+                        type: string
+                        format: url
+                        example: "/users/123/borrow_books?page=1&limit=10"
+                      first_page:
+                        type: string
+                        format: url
+                        example: "/users/123/borrow_books?page=1&limit=10"
+                      last_page:
+                        type: string
+                        format: url
+                        example: "/users/123/borrow_books?page=5&limit=10"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    "400":
+      description: Bad request
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: integer
+                format: int32
+                example: 400
+              error:
+                type: string
+                example: Bad request!
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    filed:
+                      type: string
+                      example: email
+                    message:
+                      type: string
+                      example: Invalid email
+                    in:
+                      type: string
+                      enum: [query, body]
+                      example: body
+    "500":
+      description: Internal Server Error
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: integer
+                format: int32
+                example: 500
+              error:
+                type: string
+                example: Internal Server Error
+              message:
+                type: string
+                example: We are sorry for the inconvenience. Please try again later
+    "404":
+      description: Not found!
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: integer
+                format: int32
+                example: 404
+              error:
+                type: string
+                example: Not found
+    "401":
+      description: Unauthorized access
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: integer
+                format: int32
+                example: 401
+              error:
+                type: string
+                example: Unauthorized access
+    "403":
+      description: Forbidden access
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: integer
+                format: int32
+                example: 403
+              error:
+                type: string
+                example: Forbidden access
+  schemas:
+    TimeStam:
+      type: object
+      properties:
+        createdAt:
+          type: string
+          format: date-time
+        updateAt:
+          type: string
+          format: date-time
+    Book:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: 507f1f77bcf86cd799439011
+            title:
+              type: string
+              example: Atomic Habits
+            author:
+              type: string
+              example: James Clear
+            description:
+              type: string
+              example: "Atomic Habits by James Clear is a comprehensive, practical guide on how to change your habits and get 1% better every day. Using a framework called the Four Laws of Behavior Change."
+            availability:
+              type: string
+              enum: [Available, Not_Available]
+              example: Available
+            genre:
+              type: string
+              example: self_help
+            cover:
+              type: string
+              format: url
+              example: https://s3.aws.kf/fk.jpeg
+            keywords:
+              type: array
+              items:
+                type: string
+                example: "Make it Easy"
+
+        - $ref: "#/components/schemas/TimeStam"
+    BookOptProp:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Atomic Habits
+        author:
+          type: string
+          example: James Clear
+        genre:
+          type: string
+          example: self_help
+        cover:
+          type: string
+          format: url
+          example: https://s3.aws.kf/fk.jpeg
+        description:
+          type: string
+          example: "Atomic Habits by James Clear is a comprehensive, practical guide on how to change your habits and get 1% better every day. Using a framework called the Four Laws of Behavior Change"
+        keywords:
+          type: array
+          items:
+            type: string
+            example: Productivity
+    BookReqProp:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Atomic Habits
+        author:
+          type: string
+          example: James Clear
+        genre:
+          type: string
+          example: self_help
+        cover:
+          type: string
+          format: url
+          example: https://s3.aws.kf/fk.jpeg
+        description:
+          type: string
+          example: "Atomic Habits by James Clear is a comprehensive, practical guide on how to change your habits and get 1% better every day. Using a framework called the Four Laws of Behavior Change"
+        keywords:
+          type: array
+          items:
+            type: string
+            example: Productivity
+      required: [title, author, genre, description, keywords]
+    BookCreateDTO:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int
+          example: 201
+        message:
+          type: string
+          example: Book Created Successfully
+        data:
+          $ref: "#/components/schemas/Book"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "/books"
+    BookUpdateDTO:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int
+          example: 200
+        message:
+          type: string
+          example: Book Update Successful
+        data:
+          $ref: "#/components/schemas/Book"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "/books"
+    UserDTO:
+      type: object
+      properties:
+        username:
+          type: string
+          example: Omor Faruk
+        email:
+          type: string
+          format: email
+          example: omor@gmail.com
+        cover:
+          type: string
+          format: url
+          example: https://s3.aws.kf/fk.jpeg
+      required: [username, email, cover]
+    BookDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "507f1f77bcf86cd799439011"
+        title:
+          type: string
+          example: Atomic Habits
+        description:
+          type: string
+          example: "Atomic Habits by James Clear is a comprehensive, practical guide on how to change your habits and get 1% better every day. Using a framework called the Four Laws of Behavior Change, "
+        author:
+          type: string
+          example: James Clear
+        genre:
+          type: string
+          example: self_help
+        cover:
+          type: string
+          format: url
+          example: https://s3.aws.kf/fk.jpeg
+        keywords:
+          type: array
+          items:
+            type: string
+            example: "Productive"
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+          example: 2
+        limit:
+          type: integer
+          format: int32
+          example: 10
+        next_page:
+          type: integer
+          format: int32
+          example: 3
+        prev_page:
+          type: integer
+          format: int32
+          example: 1
+        total_page:
+          type: integer
+          format: int32
+          example: 5
+        total_items:
+          type: integer
+          format: int32
+          example: 54
+  parameters:
+    pageParam:
+      in: query
+      name: page
+      description: current page number
+      required: true
+      schema:
+        type: integer
+        format: int32
+        example: 2
+    limitParam:
+      in: query
+      name: limit
+      description: number of items will be returned
+      required: true
+      schema:
+        type: integer
+        format: int32
+        example: 10
+    sortTypeParam:
+      in: query
+      name: sort_type
+      description: type of sort (asc or dsc)
+      schema:
+        type: string
+        enum: [asc, dsc]
+        example: asc
+    sortByParam:
+      in: query
+      name: sort_by
+      description: Sort Key
+      schema:
+        type: string
+        example: updatedAt
+    searchParam:
+      in: query
+      name: search
+      description: Search term
+      schema:
+        type: string
+        example: title
+    idPathParam:
+      in: path
+      name: id
+      required: true
+      description: entity id
+      schema:
+        type: string
+        example: "64d268cdeef8c84bb18912db"
+    expandParam:
+      in: query
+      name: Expand key
+      description: key could be (user or book)
+      schema:
+        type: string
+        enum: [user, book]
+        example: book
