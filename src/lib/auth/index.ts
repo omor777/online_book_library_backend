@@ -1,5 +1,6 @@
 import { badRequest } from "../../utils/error";
 import { generateHash, hashMatched } from "../../utils/hashing";
+import { generateToken } from "../token";
 import { createUser, findUserByEmail, userExist } from "../user";
 
 type Register = {
@@ -37,12 +38,14 @@ const login = async ({ email, password }: Login) => {
     throw badRequest("Invalid Credentials");
   }
 
-  // const payload = {
-  //   id: user.id,
-  //   username: user.username,
-  //   email: user.email,
-  //   role: user.role,
-  // };
+  const payload = {
+    id: user.id,
+    username: user.username,
+    email: user.email,
+    role: user.role,
+  };
+
+  return generateToken({ payload });
 };
 
 export const services = { register, login };

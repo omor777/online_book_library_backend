@@ -1,7 +1,6 @@
-import { register } from "./controller";
+import { register, login } from "./controller";
 
-
-export const controllers  = {
-    register
-}
-
+export const controllers = {
+  register,
+  login,
+};

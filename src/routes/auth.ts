@@ -9,5 +9,6 @@ router.post(
   validateReqBody(validation.signupBodySchema),
   authController.register
 );
+router.post('/login',authController.login)
 
 export default router;

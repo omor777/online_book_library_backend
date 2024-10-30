@@ -11,3 +11,14 @@ Content-Type: application/json
     "email":"omor11@gmail.com",
     "password": "omor1234"
 }
+
+
+###
+
+POST http://localhost:4000/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email":"omor11@gmail.com",
+    "password": "omor1234"
+}
