@@ -20,7 +20,7 @@ tags:
   - name: Borrow
     description: Borrowing history Endpoints
 paths:
-  "/auth/signup":
+  "/auth/register":
     post:
       tags: [Auth]
       requestBody:
@@ -92,7 +92,7 @@ paths:
           $ref: "#/components/responses/400"
         "500":
           $ref: "#/components/responses/500"
-  "/auth/signin":
+  "/auth/login":
     post:
       tags: [Auth]
       requestBody:
