@@ -8,7 +8,8 @@
     "sourceMap": true,
     // "forceConsistentCasingInFileNames": true, // Enforce case-sensitive file names
     "outDir": "./dist", // Output compiled files to the 'dist' folder
-    "rootDir": "./src" // Source files live in the 'src' folder
+    "rootDir": "./src", // Source files live in the 'src' folder
+    "typeRoots": ["./src/types", "node_modules/@types"]
   },
   "include": ["src/**/*.ts"], // Include all TypeScript files in the 'src' folder
   "exclude": ["node_modules"] // Exclude dependencies from the build

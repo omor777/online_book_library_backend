@@ -1,4 +1,5 @@
 import { Schema, model, Document, Types } from "mongoose";
+import { string } from "zod";
 
 enum BookAvailability {
   AVAILABLE = "available",
@@ -7,7 +8,7 @@ enum BookAvailability {
 
 interface IBook extends Document {
   title: string;
-  author: Types.ObjectId;
+  author: string;
   genre: string;
   description: string;
   cover?: string;
@@ -22,8 +23,7 @@ const bookSchema = new Schema<IBook>(
       required: true,
     },
     author: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: true,
     },
     genre: {

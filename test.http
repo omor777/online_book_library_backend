@@ -22,3 +22,20 @@ Content-Type: application/json
     "email":"omor11@gmail.com",
     "password": "omor1234"
 }
+
+
+###
+
+POST http://localhost:4000/api/v1/books
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmODZlMDVjYjYzNjY0MTc1ZSIsInVzZXJuYW1lIjoib21vciIsImVtYWlsIjoib21vcjExQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwMzA2NTQwLCJleHAiOjE3MzAzMTAxNDB9.FPNB01ejOLewBO7rMfcEkQJfMlTbngn0HTkKlJ2JBvA
+
+{
+  "title": "Atomic Habits",
+  "author": "James Clear",
+  "description": "Atomic  Habits by James Clear is a comprehensive, practical guide on how to change your habits and get 1% better every day. Using a framework called the Four Laws of Behavior Change,",
+  "genre": "self_help",
+  "keywords": [
+    "productive"
+  ]
+}

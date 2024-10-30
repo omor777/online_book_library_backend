@@ -1,5 +1,6 @@
-import jwt from "jsonwebtoken";
+import jwt, { Jwt, JwtPayload } from "jsonwebtoken";
 import { serverError } from "../../utils/error";
+import { TokenData } from "../../types/express";
 
 type Token = {
   payload: any;
@@ -36,10 +37,10 @@ const verifyToken = async ({
   secret = process.env.ACCESS_TOKEN_SECRET as string,
 }: {
   token: string;
-  secret: string;
-}) => {
+  secret?: string;
+}): Promise<TokenData> => {
   try {
-    return jwt.verify(token, secret);
+    return jwt.verify(token, secret) as TokenData;
   } catch (error) {
     console.log("[JWT]", error);
     throw serverError();

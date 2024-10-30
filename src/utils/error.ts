@@ -22,7 +22,7 @@ const serverError = (msg: string = "Internal Server Error") => {
 };
 
 const authenticationError = (msg: string = "Authentication Failed") => {
-  const error = new CustomError(msg, 403);
+  const error = new CustomError(msg, 401);
   return error;
 };
 
