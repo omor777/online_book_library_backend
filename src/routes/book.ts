@@ -18,6 +18,9 @@ router.get(
   bookController.findAllItems
 );
 
-router.get('/:id',bookController.findSingleItem)
+router
+  .route("/:id")
+  .get(bookController.findSingleItem)
+  .put(validateReqBody(bookSchema), bookController.updateItem);
 
 export default router;

@@ -57,6 +57,12 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:4000/api/v1/books/67220aae54f76c42da7c03ee
+GET http://localhost:4000/api/v1/books/67220aae54f76c42da7c03e0
+Content-Type: application/json
+
+
+###
+
+PUT  http://localhost:4000/api/v1/books/67220aae54f76c42da7c03e0
 Content-Type: application/json
 

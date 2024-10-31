@@ -30,7 +30,10 @@ const bookSchema = new Schema<IBook>(
       type: String,
       required: true,
     },
-    cover: String,
+    cover: {
+      type: String,
+      default: null,
+    },
     description: {
       type: String,
       required: true,

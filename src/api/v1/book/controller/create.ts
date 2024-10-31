@@ -2,13 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { services as bookService } from "../../../../lib/book";
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
-  // check authentication
-  // check authorization
-  // validate req body
-  const { title, author, description, genre, keywords } = req.body;
-  // create book data
+  const { title, author, description, genre, keywords,cover } = req.body;
 
-  // response back
   try {
     const book = await bookService.create({
       title,
@@ -16,6 +11,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
       description,
       genre,
       keywords,
+      cover,
     });
 
     const response = {

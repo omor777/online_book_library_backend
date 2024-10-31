@@ -7,6 +7,7 @@ const create = async ({
   description,
   genre,
   keywords,
+  cover,
 }: BookType) => {
   const book = new Book({
     title,
@@ -14,6 +15,7 @@ const create = async ({
     description,
     genre,
     keywords,
+    cover,
   });
 
   await book.save();

@@ -10,7 +10,7 @@ type Token = {
 };
 const generateToken = ({
   payload,
-  expiresIn = "1h",
+  expiresIn = "30d",
   secret = process.env.ACCESS_TOKEN_SECRET as string,
 }: Token) => {
   try {

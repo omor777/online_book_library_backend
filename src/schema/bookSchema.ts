@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const bookSchema = z.object({
+  id: z.string().optional(),
   title: z
     .string({
       required_error: "Title is required",
@@ -29,9 +30,14 @@ const bookSchema = z.object({
     .string({
       required_error: "Genre is required",
     })
+    .min(2, {
+      message: "Genre name must be at least 2 characters long",
+    })
     .trim(),
   keywords: z
-    .string()
+    .string({
+      required_error: "Keywords are required",
+    })
     .array()
     .nonempty({
       message: "Keywords array must not be empty",
@@ -39,6 +45,12 @@ const bookSchema = z.object({
     .max(8, {
       message: "Keywords array can't exceed 8 elements",
     }),
+  cover: z
+    .string()
+    .url({
+      message: "Please provide a valid cover image URL",
+    })
+    .optional(),
 });
 
 const bookQuerySchema = z.object({
