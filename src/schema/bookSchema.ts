@@ -41,6 +41,29 @@ const bookSchema = z.object({
     }),
 });
 
-type BookType = z.infer<typeof bookSchema>;
+const bookQuerySchema = z.object({
+  page: z
+    .number({
+      required_error: "Page is required",
+    })
+    .positive({
+      message: "Page must be a positive integer",
+    }),
+  limit: z
+    .number({
+      required_error: "Limit is required",
+    })
+    .positive({
+      message: "Limit must be a positive integer",
+    }),
+  sort_type: z.enum(["asc", "dsc"], {
+    message: "Sort type must be either 'asc' or 'dsc'",
+  }),
+  sort_by: z.string().trim().optional(),
+  search: z.string().optional(),
+});
 
-export { bookSchema, BookType };
+type BookType = z.infer<typeof bookSchema>;
+type BookQueryType = z.infer<typeof bookQuerySchema>;
+
+export { bookSchema, bookQuerySchema, BookType, BookQueryType };

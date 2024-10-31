@@ -1,5 +1,5 @@
 
-interface IConfig {
+interface Default {
     totalItems: number;
     limit: number;
     page: number;
@@ -8,7 +8,7 @@ interface IConfig {
     search: string;
 }
 
-const config: IConfig = {
+const defaults: Default = {
     totalItems: 0,
     limit: 10,
     page: 1,
@@ -17,4 +17,4 @@ const config: IConfig = {
     search: '',
 }
 
-export default config;
+export default defaults;    

@@ -28,14 +28,30 @@ Content-Type: application/json
 
 POST http://localhost:4000/api/v1/books
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmODZlMDVjYjYzNjY0MTc1ZSIsInVzZXJuYW1lIjoib21vciIsImVtYWlsIjoib21vcjExQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwMzA2NTQwLCJleHAiOjE3MzAzMTAxNDB9.FPNB01ejOLewBO7rMfcEkQJfMlTbngn0HTkKlJ2JBvA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmODZlMDVjYjYzNjY0MTc1ZSIsInVzZXJuYW1lIjoib21vciIsImVtYWlsIjoib21vcjExQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwMzUwMDc4LCJleHAiOjE3MzAzNTM2Nzh9.Ijpag2J_i5C8UJWwXaEvjcn-40SfGzGGc8ACFUXHTJ8
 
 {
-  "title": "Atomic Habits",
-  "author": "James Clear",
+  "title": "three",
+  "author": "ok",
   "description": "Atomic  Habits by James Clear is a comprehensive, practical guide on how to change your habits and get 1% better every day. Using a framework called the Four Laws of Behavior Change,",
   "genre": "self_help",
   "keywords": [
     "productive"
   ]
 }
+
+###
+
+GET http://localhost:4000/api/v1/books
+    ?page=3
+    &limit=4
+    # &sort_type=
+    # &sort_by=
+    # &search=
+    # &sort_by=title
+    # &sort_order=asc
+    # &genre=self_help
+    # &keywords=productive
+Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmODZlMDVjYjYzNjY0MTc1ZSIsInVzZXJuYW1lIjoib21vciIsImVtYWlsIjoib21vcjExQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwMzA2NTQwLCJleHAiOjE3MzAzMTAxNDB9.FPNB01ejOLewBO7rMfcEkQJfMlTbngn0HTkKlJ2JBvA
+

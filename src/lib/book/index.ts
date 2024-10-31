@@ -1,5 +1,7 @@
-import { create } from "./service";
+import { create, count, findAllItems } from "./service";
 
 export const services = {
   create,
+  findAllItems,
+  count,
 };

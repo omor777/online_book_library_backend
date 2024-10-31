@@ -1,5 +1,6 @@
-import { create } from "./controller";
+import { create, findAllItems } from "./controller";
 
 export const controllers = {
-    create
-}
+  create,
+  findAllItems,
+};
