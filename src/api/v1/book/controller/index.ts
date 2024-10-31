@@ -1,3 +1,5 @@
 import create from "./create";
 import findAllItems from "./findAllItems";
-export { create, findAllItems };
+import findSingleItem from "./findSingleItem";
+
+export { create, findAllItems, findSingleItem };

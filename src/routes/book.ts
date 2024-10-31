@@ -18,4 +18,6 @@ router.get(
   bookController.findAllItems
 );
 
+router.get('/:id',bookController.findSingleItem)
+
 export default router;

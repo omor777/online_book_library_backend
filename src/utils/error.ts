@@ -1,19 +1,17 @@
 class CustomError extends Error {
-  status: number;
-  constructor(msg: string, status: number) {
+  statusCode: number;
+  constructor(msg: string, statusCode: number) {
     super(msg);
-    this.status = status;
+    this.statusCode = statusCode;
   }
 }
 
 const badRequest = (msg: string = "Bad Request") => {
-  const error = new CustomError(msg, 400);
-  return error;
+  return new CustomError(msg, 400);
 };
 
 const notFound = (msg: string = "Resource not found") => {
-  const error = new CustomError(msg, 404);
-  return error;
+  return new CustomError(msg, 404);
 };
 
 const serverError = (msg: string = "Internal Server Error") => {
