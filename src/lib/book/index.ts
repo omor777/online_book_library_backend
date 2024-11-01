@@ -4,6 +4,7 @@ import {
   findAllItems,
   findSingleItem,
   updateOrCreate,
+  updateProperties,
 } from "./service";
 
 export const services = {
@@ -12,4 +13,5 @@ export const services = {
   count,
   findSingleItem,
   updateOrCreate,
+  updateProperties,
 };

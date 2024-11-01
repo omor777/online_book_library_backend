@@ -75,7 +75,17 @@ const bookQuerySchema = z.object({
   search: z.string().optional(),
 });
 
+const partialBook = bookSchema.partial();
+
 type BookType = z.infer<typeof bookSchema>;
+type PartialBookType = z.infer<typeof partialBook>;
 type BookQueryType = z.infer<typeof bookQuerySchema>;
 
-export { bookSchema, bookQuerySchema, BookType, BookQueryType };
+export {
+  bookSchema,
+  bookQuerySchema,
+  partialBook,
+  BookType,
+  BookQueryType,
+  PartialBookType,
+};

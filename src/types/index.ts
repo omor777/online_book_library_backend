@@ -15,3 +15,16 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface BookData {
+  _id: Types.ObjectId;
+  title: string;
+  author: string;
+  cover: string | null;
+  genre: string;
+  availability: string;
+  description: string;
+  keywords: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}

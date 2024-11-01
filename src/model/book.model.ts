@@ -6,14 +6,16 @@ enum BookAvailability {
   NOT_AVAILABLE = "not_available",
 }
 
-interface IBook extends Document {
+export interface IBook extends Document {
   title: string;
   author: string;
   genre: string;
   description: string;
   cover?: string;
-  keywords: Array<string>;
+  keywords: string[];
   availability: BookAvailability;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const bookSchema = new Schema<IBook>(
@@ -32,7 +34,7 @@ const bookSchema = new Schema<IBook>(
     },
     cover: {
       type: String,
-      default: null,
+      default: "",
     },
     description: {
       type: String,

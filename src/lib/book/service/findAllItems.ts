@@ -1,5 +1,7 @@
+import { HydratedDocument } from "mongoose";
 import defaults from "../../../config/defaults";
-import Book from "../../../model/book.model";
+import Book, { IBook } from "../../../model/book.model";
+import { BookData } from "../../../types";
 
 interface PropType {
   search: string;
@@ -21,7 +23,7 @@ const findAllItems = async ({
   const sortStr = `${sort_type === "asc" ? "" : "-"}${sort_by}`;
   console.log(sortStr);
 
-  const books = await Book.find(filter)
+  const books: HydratedDocument<IBook>[] = await Book.find(filter)
     .sort(sortStr)
     .skip(page * limit - limit)
     .limit(limit);

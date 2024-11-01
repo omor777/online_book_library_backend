@@ -1,7 +1,7 @@
 import express from "express";
 import { controllers as bookController } from "../api/v1/book";
 import { validateReqBody } from "../middleware/validateReqBody";
-import { bookQuerySchema, bookSchema } from "../schema/bookSchema";
+import { bookQuerySchema, bookSchema, partialBook } from "../schema/bookSchema";
 import authentication from "../middleware/authentication";
 import validateQueryParams from "../middleware/validateQueryParams";
 const router = express.Router();
@@ -21,6 +21,7 @@ router.get(
 router
   .route("/:id")
   .get(bookController.findSingleItem)
-  .put(validateReqBody(bookSchema), bookController.updateItem);
+  .put(validateReqBody(bookSchema), bookController.updateItem)
+  .patch(validateReqBody(partialBook), bookController.updateItemPatch);
 
 export default router;

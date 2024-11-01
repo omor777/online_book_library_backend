@@ -28,7 +28,7 @@ Content-Type: application/json
 
 POST http://localhost:4000/api/v1/books
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmODZlMDVjYjYzNjY0MTc1ZSIsInVzZXJuYW1lIjoib21vciIsImVtYWlsIjoib21vcjExQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwMzUwMDc4LCJleHAiOjE3MzAzNTM2Nzh9.Ijpag2J_i5C8UJWwXaEvjcn-40SfGzGGc8ACFUXHTJ8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmODZlMDVjYjYzNjY0MTc1ZSIsInVzZXJuYW1lIjoib21vciIsImVtYWlsIjoib21vcjExQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwNDA5MjgyLCJleHAiOjE3MzMwMDEyODJ9.S0lTyTq2ZkNw_CWzTxZGJaCM2Vz3WlIq5FiTZFQZVcU
 
 {
   "title": "three",
@@ -66,3 +66,13 @@ Content-Type: application/json
 PUT  http://localhost:4000/api/v1/books/67220aae54f76c42da7c03e0
 Content-Type: application/json
 
+
+###
+
+PATCH  http://localhost:4000/api/v1/books/67220aae54f76c42da7c03e0
+Content-Type: application/json
+
+{
+  "title": "dfdd",
+   "genre":"atomic"
+}
