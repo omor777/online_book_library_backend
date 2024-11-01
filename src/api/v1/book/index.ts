@@ -4,6 +4,7 @@ import {
   findSingleItem,
   updateItem,
   updateItemPatch,
+  deleteItem,
 } from "./controller";
 
 export const controllers = {
@@ -12,4 +13,5 @@ export const controllers = {
   findSingleItem,
   updateItem,
   updateItemPatch,
+  deleteItem,
 };

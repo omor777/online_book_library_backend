@@ -24,4 +24,14 @@ const authenticationError = (msg: string = "Authentication Failed") => {
   return error;
 };
 
-export { badRequest, notFound, serverError, authenticationError };
+const forbiddenError = (msg: string = "Forbidden access!") => {
+  return new CustomError(msg, 403);
+};
+
+export {
+  badRequest,
+  notFound,
+  serverError,
+  authenticationError,
+  forbiddenError,
+};

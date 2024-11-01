@@ -4,6 +4,7 @@ import { validateReqBody } from "../middleware/validateReqBody";
 import { bookQuerySchema, bookSchema, partialBook } from "../schema/bookSchema";
 import authentication from "../middleware/authentication";
 import validateQueryParams from "../middleware/validateQueryParams";
+import authorize from "../middleware/authorize";
 const router = express.Router();
 
 router.post(
@@ -22,6 +23,7 @@ router
   .route("/:id")
   .get(bookController.findSingleItem)
   .put(validateReqBody(bookSchema), bookController.updateItem)
-  .patch(validateReqBody(partialBook), bookController.updateItemPatch);
+  .patch(validateReqBody(partialBook), bookController.updateItemPatch)
+  .delete(authentication, authorize(['admin']), bookController.deleteItem);
 
 export default router;

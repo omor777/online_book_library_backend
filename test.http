@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
     "username": "omor",
-    "email":"omor11@gmail.com",
+    "email":"omor12@gmail.com",
     "password": "omor1234"
 }
 
@@ -24,15 +24,16 @@ Content-Type: application/json
 }
 
 
+
 ###
 
 POST http://localhost:4000/api/v1/books
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmODZlMDVjYjYzNjY0MTc1ZSIsInVzZXJuYW1lIjoib21vciIsImVtYWlsIjoib21vcjExQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwNDA5MjgyLCJleHAiOjE3MzMwMDEyODJ9.S0lTyTq2ZkNw_CWzTxZGJaCM2Vz3WlIq5FiTZFQZVcU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjUwMzlhMzc3MzVkYTMwMmI5ZWE3MiIsInVzZXJuYW1lIjoib21vciIsImVtYWlsIjoib21vcjEyQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwNDc5MDE3LCJleHAiOjE3MzMwNzEwMTd9.mqu3Aqyd1I_kc-VVYYLnmyNYqBTDUAAb_MgNat7ZZmo
 
 {
-  "title": "three",
-  "author": "ok",
+  "title": "Growing tgrough strugle",
+  "author": "four",
   "description": "Atomic  Habits by James Clear is a comprehensive, practical guide on how to change your habits and get 1% better every day. Using a framework called the Four Laws of Behavior Change,",
   "genre": "self_help",
   "keywords": [
@@ -76,3 +77,7 @@ Content-Type: application/json
   "title": "dfdd",
    "genre":"atomic"
 }
+###
+
+DELETE  http://localhost:4000/api/v1/books/507f1f77bcf86cd799439011
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmODZlMDVjYjYzNjY0MTc1ZSIsInVzZXJuYW1lIjoib21vciIsImVtYWlsIjoib21vcjExQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwNDgwOTAxLCJleHAiOjE3MzMwNzI5MDF9.8OEWYq8e7mmmP8kStXh09cBsoM7Xeg2oruWJTk2i608

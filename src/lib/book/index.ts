@@ -5,6 +5,7 @@ import {
   findSingleItem,
   updateOrCreate,
   updateProperties,
+  deleteItem,
 } from "./service";
 
 export const services = {
@@ -14,4 +15,5 @@ export const services = {
   findSingleItem,
   updateOrCreate,
   updateProperties,
+  deleteItem,
 };
