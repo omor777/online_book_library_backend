@@ -1,4 +1,4 @@
-import { Express } from "express-serve-static-core";
+import { Express, Request, Application } from "express-serve-static-core";
 
 export interface TokenData {
   id: string;
@@ -12,5 +12,8 @@ export interface TokenData {
 declare module "express-serve-static-core" {
   interface Request {
     user: TokenData;
+  }
+  interface Application {
+    _eventsCount?: number;
   }
 }

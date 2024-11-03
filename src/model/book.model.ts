@@ -1,7 +1,6 @@
 import { Schema, model, Document, Types } from "mongoose";
-import { string } from "zod";
 
-enum BookAvailability {
+export enum BookAvailability {
   AVAILABLE = "available",
   NOT_AVAILABLE = "not_available",
 }

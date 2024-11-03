@@ -84,4 +84,30 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmO
 ###
 
 POST  http://localhost:4000/api/v1/borrow_books
+Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmODZlMDVjYjYzNjY0MTc1ZSIsInVzZXJuYW1lIjoib21vciIsImVtYWlsIjoib21vcjExQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwNDgwOTAxLCJleHAiOjE3MzMwNzI5MDF9.8OEWYq8e7mmmP8kStXh09cBsoM7Xeg2oruWJTk2i608
+
+{
+  "bookId":"67226a8479a675c704bac1f9"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###
+
+GET  http://localhost:4000/api/v1/generic/test/one/two?name=omor
+Cache-Control: no-cache
+Authorization: Bearer
+

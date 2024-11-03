@@ -6,7 +6,6 @@ const validateReqBody = (schema: z.ZodSchema) => {
     try {
       schema.parse(req.body);
       return next();
-      
     } catch (error) {
       if (error instanceof z.ZodError) {
         const formattedErrors = error.errors.map((e) => ({
