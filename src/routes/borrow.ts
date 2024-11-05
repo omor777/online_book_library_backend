@@ -24,4 +24,11 @@ router.patch(
   borrowController.acceptBorrowRequest
 );
 
+router.patch(
+  "/:id/reject",
+  authentication,
+  authorize([permissions.admin]),
+  borrowController.rejectBorrowRequest
+);
+
 export default router;
