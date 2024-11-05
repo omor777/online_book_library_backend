@@ -5,6 +5,16 @@ export enum UserRole {
   USER = "user",
 }
 
+export enum SortOrder {
+  ASCENDING = "asc",
+  DESCENDING = "dsc",
+}
+
+export enum BorrowExpand {
+  USER = "user",
+  BOOK = "book",
+}
+
 export interface User {
   _id: Types.ObjectId;
   username: string;

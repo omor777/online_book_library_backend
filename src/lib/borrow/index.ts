@@ -1,5 +1,5 @@
-import { create } from "./service";
+import { create, findAllItemsAdmin } from "./service";
 
-const borrowServices = { create };
+const borrowServices = { create, findAllItemsAdmin };
 
 export default borrowServices;

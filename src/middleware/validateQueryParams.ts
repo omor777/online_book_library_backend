@@ -10,7 +10,6 @@ const validateQueryParams =
     const sort_by = req.query.sort_by || defaults.sortBy;
     const search = req.query.search || defaults.search;
 
-
     try {
       // validate the query parameters using the schema
       schema.parse({
@@ -29,8 +28,10 @@ const validateQueryParams =
           return {
             field: e.path[0],
             message: e.message,
+            in: "query",
           };
         });
+
         res.status(400).json({
           statusCode: 400,
           error: "Bad request!",

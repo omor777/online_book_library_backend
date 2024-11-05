@@ -1,10 +1,11 @@
 import express from "express";
 import { controllers as bookController } from "../api/v1/book";
 import { validateReqBody } from "../middleware/validateReqBody";
-import { bookQuerySchema, bookSchema, partialBook } from "../schema/bookSchema";
+import { bookSchema, partialBook } from "../schema/bookSchema";
 import authentication from "../middleware/authentication";
 import validateQueryParams from "../middleware/validateQueryParams";
 import authorize from "../middleware/authorize";
+import { baseQueryParamSchema } from "../schema/querySchema";
 const router = express.Router();
 
 router.post(
@@ -15,7 +16,7 @@ router.post(
 );
 router.get(
   "/",
-  validateQueryParams(bookQuerySchema),
+  validateQueryParams(baseQueryParamSchema),
   bookController.findAllItems
 );
 

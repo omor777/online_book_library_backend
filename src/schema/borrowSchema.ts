@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 import { z } from "zod";
+import { baseQueryParamSchema } from "./querySchema";
+import { BorrowExpand } from "../types";
 
 const borrowSchemaBody = z.object({
-  userId: z
+  user: z
     .string({
       required_error: "User ID is required",
     })
@@ -13,7 +15,7 @@ const borrowSchemaBody = z.object({
       })
     )
     .optional(),
-  bookId: z
+  book: z
     .string({
       required_error: "Book ID is required",
     })
@@ -25,6 +27,70 @@ const borrowSchemaBody = z.object({
     ),
 });
 
-type BorrowSchemaBody = z.infer<typeof borrowSchemaBody>;
+const borrowQueryParamSchema = baseQueryParamSchema.extend({
+  expand: z
+    .string()
+    .transform((v) => v.split(","))
+    .refine(
+      (v) => v.includes(BorrowExpand.USER) || v.includes(BorrowExpand.BOOK),
 
-export { borrowSchemaBody, BorrowSchemaBody };
+      (v) => ({
+        message: `Invalid expand value. Expected 'user' | 'book'. Received ${v.join(
+          ","
+        )}`,
+      })
+    )
+    .optional(),
+
+  user_fields: z
+    .string()
+    .transform((v) =>
+      v.split(",").filter((v) => {
+        return (
+          v === "username" || v === "email" || v === "_id" || v === "createdAt"
+        );
+      })
+    )
+    .refine(
+      (v) => {
+        return v.length > 0;
+      },
+      {
+        message: `Invalid user_fields value. Expected '_id', 'username', 'email', 'createdAt'`,
+      }
+    )
+    .optional(),
+
+  book_fields: z
+    .string()
+    .transform((v) =>
+      v.split(",").filter((v) => {
+        return (
+          v === "_id" ||
+          v === "title" ||
+          v === "author" ||
+          v === "genre" ||
+          v === "keywords" ||
+          v === "availability" ||
+          v === "createdAt"
+        );
+      })
+    )
+    .refine(
+      (v) => v.length > 0,
+      (v) => ({
+        message: `Invalid book_fields value. Expected '_id', 'title', 'author', 'genre', 'keywords', 'availability', 'createdAt'`,
+      })
+    )
+    .optional(),
+});
+
+type BorrowBodyType = z.infer<typeof borrowSchemaBody>;
+type BorrowQueryParamType = z.infer<typeof borrowQueryParamSchema>;
+
+export {
+  borrowSchemaBody,
+  borrowQueryParamSchema,
+  BorrowBodyType,
+  BorrowQueryParamType,
+};

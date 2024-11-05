@@ -13,6 +13,11 @@ app.get("/health", (_req: Request, res: Response) => {
   });
 });
 
+const d = undefined
+
+console.log(`${d}`);
+
+
 // const restRouter = express.Router();
 // app.use("/api/v1/generic", restRouter);
 // restRouter.get("/test/one/two", (req: Request, res: Response) => {
@@ -39,6 +44,23 @@ app.get("/health", (_req: Request, res: Response) => {
 //   id: "5c0a7922c9d89830f491142t",
 // });
 // console.log(res.error);
+
+// enum Fruits {
+//   Apple = "apple",
+//   Orange = "orange",
+//   Banana = "banana",
+// }
+
+// const Food = {
+//   a: "one",
+//   b: "two",
+// } as const;
+
+// const fruitEnum = z.nativeEnum(Food);
+
+// type FruitEnum = z.infer<typeof fruitEnum>;
+
+// console.log(fruitEnum.safeParse("three"));
 
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   res.status(err.statusCode || 500).json({

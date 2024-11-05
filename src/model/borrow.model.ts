@@ -9,8 +9,8 @@ enum BorrowStatus {
 }
 
 export interface IBorrow extends Document {
-  userId: Types.ObjectId;
-  bookId: Types.ObjectId;
+  user: Types.ObjectId;
+  book: Types.ObjectId;
   status: BorrowStatus;
   borrowDate?: Date;
   returnDate?: Date;
@@ -20,12 +20,12 @@ export interface IBorrow extends Document {
 
 const borrowSchema = new Schema<IBorrow>(
   {
-    userId: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    bookId: {
+    book: {
       type: Schema.Types.ObjectId,
       ref: "Book",
       required: true,

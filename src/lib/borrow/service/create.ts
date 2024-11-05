@@ -3,19 +3,19 @@ import Borrow from "../../../model/borrow.model";
 import { badRequest, notFound } from "../../../utils/error";
 
 const create = async ({
-  userId,
-  bookId,
+  user,
+  book,
 }: {
-  userId: string;
-  bookId: string;
+  user: string;
+  book: string;
 }) => {
-  const isAlreadyBorrowRequest = await Borrow.findOne({ bookId });
+  const isAlreadyBorrowRequest = await Borrow.findOne({ book });
 
   if(isAlreadyBorrowRequest?.status === 'pending') {
     throw badRequest("You have already request for this book");
   }
 
-  const requestedBorrowBook = await Book.findById(bookId);
+  const requestedBorrowBook = await Book.findById(book);
 
   if (!requestedBorrowBook) {
     throw notFound();
@@ -26,8 +26,8 @@ const create = async ({
   }
 
   const borrowBook = new Borrow({
-    userId,
-    bookId,
+    user,
+    book,
   });
 
 

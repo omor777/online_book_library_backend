@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import borrowServices from "../../../../lib/borrow";
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
-  const { bookId } = req.body;
+  const { book } = req.body;
   try {
-    await borrowServices.create({ bookId, userId: req.user.id });
+    await borrowServices.create({ book, user: req.user.id });
 
     const response = {
       statusCode: 201,

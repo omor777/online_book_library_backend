@@ -1,3 +1,4 @@
 import create from "./create";
+import findAllItemsAdmin from "./findAllItemsAdmin";
 
-export {create}
+export { create, findAllItemsAdmin };
