@@ -1,6 +1,6 @@
 import mongoose, { Schema, model, Document, Types } from "mongoose";
 
-enum BorrowStatus {
+export enum BorrowStatus {
   PENDING = "pending",
   BORROWED = "borrowed",
   RETURNED = "returned",

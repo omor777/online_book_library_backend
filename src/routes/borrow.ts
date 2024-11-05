@@ -2,12 +2,9 @@ import express from "express";
 import { controllers as borrowController } from "../api/v1/borrow";
 import authentication from "../middleware/authentication";
 import { validateReqBody } from "../middleware/validateReqBody";
-import {
-  borrowQueryParamSchema,
-  borrowSchemaBody,
-} from "../schema/borrowSchema";
+import { borrowSchemaBody } from "../schema/borrowSchema";
 import authorize from "../middleware/authorize";
-import validateQueryParams from "../middleware/validateQueryParams";
+import { permissions } from "../config/constranin";
 
 const router = express.Router();
 
@@ -19,5 +16,12 @@ router
     validateReqBody(borrowSchemaBody),
     borrowController.create
   );
+
+router.patch(
+  "/:id/accept",
+  authentication,
+  authorize([permissions.admin]),
+  borrowController.acceptBorrowRequest
+);
 
 export default router;

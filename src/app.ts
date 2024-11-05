@@ -2,6 +2,7 @@ import express, { Application, NextFunction, Request, Response } from "express";
 import applyMiddleware from "./middleware";
 import { z } from "zod";
 import mongoose from "mongoose";
+import dayjs from "dayjs";
 
 // express app
 const app: Application = express();
@@ -13,10 +14,14 @@ app.get("/health", (_req: Request, res: Response) => {
   });
 });
 
-const d = undefined
+// const d = undefined
 
-console.log(`${d}`);
+// console.log(`${d}`);
 
+// const d = dayjs()
+// const b = d.add(2,'day')
+// console.log(d.day());
+// console.log(b.day());
 
 // const restRouter = express.Router();
 // app.use("/api/v1/generic", restRouter);
