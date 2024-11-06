@@ -8,17 +8,17 @@ const baseQueryParamSchema = z.object({
     })
     .positive({
       message: "Page must be a positive integer",
-    }),
+    })
+    .default(1),
   limit: z.coerce
     .number({
       required_error: "Limit is required",
     })
     .positive({
       message: "Limit must be a positive integer",
-    }),
-  sort_type: z
-    .nativeEnum(SortOrder)
-    .optional(),
+    })
+    .default(10),
+  sort_type: z.nativeEnum(SortOrder).optional(),
   sort_by: z.string().trim().optional(),
   search: z.string().optional(),
 });

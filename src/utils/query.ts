@@ -59,11 +59,11 @@ const getHATEOASForItems = ({
 
   if (hasNext) {
     const queryStr = generateQueryString({ ...query, page: page + 1 });
-    links.next = `${path}?${queryStr}`;
+    links.next = `${path}?${queryStr}&limit=${limit}`;
   }
   if (hasPrev) {
     const queryStr = generateQueryString({ ...query, page: page - 1 });
-    links.prev = `${path}?${queryStr}`;
+    links.prev = `${path}?${queryStr}&limit=${limit}`;
   }
 
   return links;

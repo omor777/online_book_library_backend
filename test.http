@@ -92,6 +92,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmO
 }
 
 
+###
+
+
+GET http://localhost:4000/api/v1/users/507f1f77bcf86cd799439011/borrow_books
+    ?page=1
+    &limit=1
+    &user_fields=username,_id
+    &book_fields=title,genre,_id
+    &expand=book,user
+    # &sort_type=asc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjFlYzhmODZlMDVjYjYzNjY0MTc1ZSIsInVzZXJuYW1lIjoib21vciIsImVtYWlsIjoib21vcjExQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwOTEzODY1LCJleHAiOjE3MzM1MDU4NjV9.K-xOj3sOHzF4_sbiU0CSLtUgYfVtlgG68hpj-3AvZ-E
 
 
 

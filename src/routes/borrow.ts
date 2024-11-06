@@ -17,6 +17,8 @@ router
     borrowController.create
   );
 
+router.get('')
+
 router.patch(
   "/:id/accept",
   authentication,

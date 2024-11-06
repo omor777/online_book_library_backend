@@ -47,7 +47,11 @@ const borrowQueryParamSchema = baseQueryParamSchema.extend({
     .transform((v) =>
       v.split(",").filter((v) => {
         return (
-          v === "username" || v === "email" || v === "_id" || v === "createdAt"
+          v === "username" ||
+          v === "email" ||
+          v === "_id" ||
+          v === "createdAt" ||
+          v === "updatedAt"
         );
       })
     )
@@ -56,7 +60,7 @@ const borrowQueryParamSchema = baseQueryParamSchema.extend({
         return v.length > 0;
       },
       {
-        message: `Invalid user_fields value. Expected '_id', 'username', 'email', 'createdAt'`,
+        message: `Invalid user_fields value. Expected '_id', 'username', 'email', 'createdAt', 'updatedAt`,
       }
     )
     .optional(),

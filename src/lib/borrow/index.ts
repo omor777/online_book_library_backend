@@ -3,6 +3,8 @@ import {
   findAllItemsAdmin,
   acceptBorrowRequest,
   rejectBorrowRequest,
+  findAllItemsUser,
+  countBorrowItemsUser,
 } from "./service";
 
 const borrowServices = {
@@ -10,6 +12,8 @@ const borrowServices = {
   findAllItemsAdmin,
   acceptBorrowRequest,
   rejectBorrowRequest,
+  findAllItemsUser,
+  countBorrowItemsUser,
 };
 
 export default borrowServices;

@@ -38,3 +38,17 @@ export interface BookData {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface BaseQueryOptions {
+  page: number;
+  limit: number;
+  sort_type?: string;
+  sort_by?: string;
+  search?: string;
+}
+
+export interface BorrowQueryOptions extends BaseQueryOptions {
+  expand: string[] | undefined;
+  user_fields?: string[] | undefined;
+  book_fields: string[] | undefined;
+}

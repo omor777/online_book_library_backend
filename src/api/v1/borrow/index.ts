@@ -3,6 +3,7 @@ import {
   findAllItemsAdmin,
   acceptBorrowRequest,
   rejectBorrowRequest,
+  findAllItemsUser,
 } from "./controller";
 
 export const controllers = {
@@ -10,4 +11,5 @@ export const controllers = {
   findAllItemsAdmin,
   acceptBorrowRequest,
   rejectBorrowRequest,
+  findAllItemsUser,
 };

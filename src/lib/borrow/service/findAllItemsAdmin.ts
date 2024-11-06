@@ -2,6 +2,8 @@ import defaults from "../../../config/defaults";
 import { IBook } from "../../../model/book.model";
 import Borrow from "../../../model/borrow.model";
 import { IUser } from "../../../model/user.model";
+import populateField from "../../../utils/populateField";
+import selectFields from "../../../utils/selectFields";
 
 export enum ExpandField {
   USER = "user",
@@ -29,35 +31,11 @@ const findAllItemsAdmin = async ({
   user_fields,
   book_fields,
 }: PropType) => {
-  let populateUser = "";
-  if (Array.isArray(expand)) {
-    populateUser = expand.includes("user") ? "user" : "";
-  }
+  const populateUser = populateField({ expand, field: "user" });
+  const populateBook = populateField({ expand, field: "book" });
 
-  let populateBook = "";
-  if (Array.isArray(expand)) {
-    populateBook = expand.includes("book") ? "book" : "";
-  }
-
-  // select user populated fields
-  let selectUserField;
-  if (Array.isArray(user_fields)) {
-    selectUserField = "-_id" + " " + user_fields.join(" ");
-
-    if (user_fields.includes("_id")) {
-      selectUserField = selectUserField.replace("-_id", "");
-    }
-  }
-
-  // select book populated fields
-  let selectBookField;
-  if (Array.isArray(book_fields)) {
-    selectBookField = "-_id" + " " + book_fields.join(" ");
-
-    if (book_fields.includes("_id")) {
-      selectBookField = selectBookField.replace("-_id", "");
-    }
-  }
+  const selectUserField = selectFields(user_fields);
+  const selectBookField = selectFields(book_fields);
   // TODO:
   //   const filter = { title: { $regex: search, $options: "i" } };
   // console.log(filter);

@@ -1,6 +1,4 @@
-import { HydratedDocument } from "mongoose";
 import User, { IUser } from "../../model/user.model";
-import { badRequest } from "../../utils/error";
 
 const createUser = async ({
   username,
@@ -31,4 +29,10 @@ const userExist = async (email: string) => {
   return user ? true : false;
 };
 
-export { userExist, createUser, findUserByEmail };
+const userServices = {
+  userExist,
+  createUser,
+  findUserByEmail,
+};
+
+export default userServices;

@@ -1,7 +1,7 @@
 import { badRequest } from "../../utils/error";
 import { generateHash, hashMatched } from "../../utils/hashing";
 import { generateToken } from "../token";
-import { createUser, findUserByEmail, userExist } from "../user";
+import userServices from "../user";
 
 type Register = {
   username: string;
@@ -9,14 +9,14 @@ type Register = {
   password: string;
 };
 const register = async ({ username, email, password }: Register) => {
-  const hasUser = await userExist(email);
+  const hasUser = await userServices.userExist(email);
   if (hasUser) {
     throw badRequest("User already exists");
   }
 
   password = await generateHash(password);
 
-  const user = await createUser({
+  const user = await userServices.createUser({
     username,
     email,
     password,
@@ -29,7 +29,7 @@ type Login = {
   password: string;
 };
 const login = async ({ email, password }: Login) => {
-  const user = await findUserByEmail(email);
+  const user = await userServices.findUserByEmail(email);
   if (!user) {
     throw badRequest("Invalid Credentials");
   }
